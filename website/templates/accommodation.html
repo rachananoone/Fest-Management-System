@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accommodation Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            text-align: center;
+            padding: 20px 0;
+            color: #007bff;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .go-back-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            font-size: 20px;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .go-back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Accommodation Details</h1>
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>Food Preference</th>
+            <th>Hostel</th>
+            <th>Gender</th>
+        </tr>
+        {% for accommodation in accommodations %}
+        <tr>
+            <td>{{ accommodation.username }}</td>
+            <td>{{ accommodation.food }}</td>
+            <td>{{ accommodation.hostel }}</td>
+            <td>{{ accommodation.gender }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="button-container">
+        <button class="go-back-button" onclick="window.location.href='/organizer_home'">Go Back</button>
+    </div>
+</body>
+</html>

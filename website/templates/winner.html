@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winners</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6e6e6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 40px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .back-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .back-button:hover{
+            background-color: #0052cc;
+        }
+        .event-box {
+            border: 3px solid black;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+            background-color: #f9ecf9;
+        }
+        .event-details h2 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        .event-details p {
+            margin: 5px 0;
+        }
+        .winners-list {
+            margin-top: 10px;
+        }
+        .winner-details {
+            margin-bottom: 10px;
+        }
+        .winner-details p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Winners</h1>
+        <a href="/organizer_home" class="back-button">Back to Home Page</a>
+        {% for event, winners in event_winners.items() %}
+            <div class="event-box">
+                <div class="event-details">
+                    <h2>Event Name: {{ event.eventname }}</h2>
+                    <p><strong>Type:</strong> {{ event.type }}</p>
+                    <p><strong>Date:</strong> {{ event.date }}</p>
+                </div>
+                <div class="winners-list">
+                    <h3>Winners:</h3>
+                    {% for winner in winners %}
+                        <div class="winner-details">
+                            <p><strong>Rank: {{ winner.rank }}</strong></p>
+                            <p><strong>Winner:</strong> {{ winner.username }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

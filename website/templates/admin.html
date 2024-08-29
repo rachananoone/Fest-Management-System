@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome for icons -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+            position: relative;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin: 40px 0;
+            font-size: 2.5rem;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size:20px;
+        }
+        th {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            font-size:18px;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tbody tr:hover {
+            background-color: #ddd;
+        }
+        @media screen and (max-width: 600px) {
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                overflow-x: auto;
+            }
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e2e2e2;
+            transition: background-color 0.3s;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+        /* Button Styles */
+        .add-button, .logout-button{
+            background-color: #3385ff; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        .delete-button
+        {
+            background-color:  #ff4d4d; 
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 15px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            border-radius: 8px;            
+        }
+        
+        .add-button:hover, .logout-button:hover{
+            background-color: #0066ff; /* Darker Green */
+        }
+        .delete-button:hover {
+            background-color: #ff3333;
+        }
+
+        .delete-button i, .logout-button i, .add-button i {
+            margin-right: 5px;
+        }
+        
+        .logout-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .add-button {
+            position: absolute;
+            top: 20px;
+            right: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+
+        <a href="/create_admin" class="add-button"><i class="fas fa-plus"></i> Add Members</a>
+        <button class="logout-button" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+
+        <h2>Students</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Department</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.s_username }}</td>
+                    <td>{{ student.s_name }}</td>
+                    <td>{{ student.s_gender }}</td>
+                    <td>{{ student.s_email }}</td>
+                    <td>{{ student.s_mob }}</td>
+                    <td>{{ student.s_dept }}</td>
+                    <td>
+                        <button class="delete-button" onclick="deleteEntry('{{ student.s_username }}', 'student')">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Participants</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>College</th>
+                    <th>Department</th>
+                    <th>Place</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for participant in participants %}
+                <tr>
+                    <td>{{ participant.p_username }}</td>
+                    <td>{{ participant.p_name }}</td>
+                    <td>{{ participant.p_gender }}</td>
+                    <td>{{ participant.p_email }}</td>
+                    <td>{{ participant.p_mob }}</td>
+                    <td>{{ participant.p_college }}</td>
+                    <td>{{ participant.p_dept }}</td>
+                    <td>{{ participant.p_place }}</td>
+                    <td>
+                        <button class="delete-button" onclick="deleteEntry('{{ participant.p_username }}', 'participant')">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Organizers</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for organizer in organizers %}
+                <tr>
+                    <td>{{ organizer.o_username }}</td>
+                    <td>{{ organizer.o_name }}</td>
+                    <td>{{ organizer.o_gender }}</td>
+                    <td>{{ organizer.o_email }}</td>
+                    <td>{{ organizer.o_mob }}</td>
+                    <td>{{ organizer.o_role }}</td>
+                    <td>
+                        <button class="delete-button" onclick="deleteEntry('{{ organizer.o_username }}', 'organizer')">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function deleteEntry(username, type) {
+            fetch(`/delete_${type}/${username}`, {
+                method: 'POST',
+            }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    window.location.reload();
+                } else {
+                    alert(data.message);
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function logout() {
+            window.location.href = "/login";
+        }
+    </script>
+</body>
+</html>
