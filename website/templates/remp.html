@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Events</title>
+    <style>
+        .event-box {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .register-button, .volunteer-button, .cancel-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Style for the logged-in user display */
+        .user-info {
+            float: right;
+            margin-top: 10px;
+            margin-right: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+        /* Style for the user icon */
+        .user-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ccc;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        /* Style for the logout button */
+        .logout-button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        /* Style for the search bar */
+        .search-bar {
+            float: right;
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Profile Image -->
+    <!-- <img src="/path/to/profile/image.jpg" alt="Profile Image" class="profile-img"> -->
+     <!-- User info display -->
+     <a href="/winners" class="winners-button">Winners</a>
+     <div class="user-info">
+        <!-- User's username -->
+        <span>{{ username }}</span>
+        <!-- User icon -->
+        <div class="user-icon"></div>
+    </div>
+    <!-- Logout Button -->
+    <button class="logout-button" onclick="logout()">Logout</button>
+
+    <!-- Search Bar -->
+    <input type="text" id="search-bar" class="search-bar" placeholder="Search by event name..." onkeyup="searchEvents()">
+
+    <h1>Student Events</h1>
+    {% for event in events %}
+        <div class="event-box">
+            <h2>{{ event.eventname }}</h2>
+            <p><strong>Type:</strong> {{ event.type }}</p>
+            <p><strong>Date:</strong> {{ event.date }}</p>
+            {% if event.registered %}
+                <button class="cancel-button" onclick="cancelRegistration('{{ event.eventid }}')">Cancel Registration</button>
+            {% else %}
+                <button class="register-button" onclick="register('{{ event.eventid }}')">Register Now</button>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <script>
+    function register(eventid) {
+    fetch('/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `eventid=${eventid}`,
+    }).then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            // Update the button to "Cancel Registration"
+            document.getElementById(`register-button-${eventid}`).style.display = 'none';
+            document.getElementById(`cancel-registration-button-${eventid}`).style.display = 'inline-block';
+        } else {
+            alert(data.message);
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function cancelRegistration(eventid) {
+    fetch('/cancel_registration', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `eventid=${eventid}`,
+    }).then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            // Update the button to "Register Now"
+            document.getElementById(`cancel-registration-button-${eventid}`).style.display = 'none';
+            document.getElementById(`register-button-${eventid}`).style.display = 'inline-block';
+        } else {
+            alert(data.message);
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
+function logout() {
+        // Redirect to the logout route
+        window.location.href = "/logout";
+    }
+
+    function searchEvents() {
+        // Retrieve the input value from the search bar
+        var input = document.getElementById("search-bar").value.toUpperCase();
+        
+        // Get all event boxes
+        var eventBoxes = document.getElementsByClassName("event-box");
+        
+        // Loop through each event box
+        for (var i = 0; i < eventBoxes.length; i++) {
+            // Get the event name from the event box
+            var eventName = eventBoxes[i].getElementsByTagName("h2")[0].innerText.toUpperCase();
+            
+            // Check if the event name contains the input value
+            if (eventName.indexOf(input) > -1) {
+                // If the event name matches, display the event box
+                eventBoxes[i].style.display = "";
+            } else {
+                // If the event name does not match, hide the event box
+                eventBoxes[i].style.display = "none";
+            }
+        }
+    }
+    </script>
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizer Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logistics-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .search-bar {
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+        }
+        .event-box {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .event-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .event-details {
+            font-size: 16px;
+            color: #666;
+        }
+        .volunteers-list {
+            margin-top: 10px;
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .volunteers-list li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome, Organizer!</h1>
+        <input type="text" class="search-bar" id="searchInput" onkeyup="searchEvents()" placeholder="Search...">
+        <button class="logistics-button" onclick="window.location.href='/logistics.html'">Logistics Details</button>
+    </div>
+    <h2>Events</h2>
+    {% for event in events %}
+    <div class="event-box" id="event{{ event.eventid }}">
+        <div class="event-name">{{ event.eventname }}</div>
+        <div class="event-details">
+            <p><strong>Type:</strong> {{ event.type }}</p>
+            <p><strong>Date:</strong> {{ event.date }}</p>
+            <strong>Volunteers:</strong>
+            <ul class="volunteers-list">
+                {% for volunteer in event_volunteers[event.eventid] %}
+                <li>{{ volunteer.username }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+
+    <script>
+        function searchEvents() {
+            var input, filter, events, eventBox, eventName, i;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            events = document.getElementsByClassName("event-box");
+            for (i = 0; i < events.length; i++) {
+                eventBox = events[i];
+                eventName = eventBox.getElementsByClassName("event-name")[0];
+                if (eventName.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    eventBox.style.display = "";
+                } else {
+                    eventBox.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

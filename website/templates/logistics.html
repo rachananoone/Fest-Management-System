@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative; /* Add this to position the pseudo-element */
+        }
+        
+        body::before {
+            content: "";
+            background-image: url('static/images/foodandlogistics.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.7; /* Adjust the opacity here */
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            padding-top: 20px;
+            filter: brightness(550%); 
+        }
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="#333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position-x: 98%;
+            background-position-y: 50%;
+            padding-right: 30px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        @media screen and (max-width: 600px) {
+            form {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Logistics Information</h1>
+
+    <form action="/submit_logistics" method="POST">
+        <label for="food">Food Preference (Veg/Non-Veg):</label><br>
+        <select id="food" name="food">
+            <option value="">Select Food</option>
+            <option value="Veg">Veg</option>
+            <option value="Non-Veg">Non-Veg</option>
+        </select><br>
+        
+        <label for="gender">Gender:</label><br>
+        <select id="gender" name="gender" onchange="showHostelOptions()">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select><br>
+        
+        <label for="hostel">Hostel:</label><br>
+        <select id="hostel" name="hostel" disabled>
+        </select><br>
+        
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        // Function to show hostel options based on gender selection
+        function showHostelOptions() {
+            var gender = document.getElementById('gender').value;
+            var hostelSelect = document.getElementById('hostel');
+            hostelSelect.disabled = false;
+
+            if (gender.toLowerCase() === 'male') {
+                hostelSelect.innerHTML = '<option value="MMM">MMM</option><option value="RP">RP</option><option value="Nehru">Nehru</option>';
+            } else if (gender.toLowerCase() === 'female') {
+                hostelSelect.innerHTML = '<option value="MT">MT</option><option value="SNIG">SNIG</option><option value="SNVH">SNVH</option>';
+            } else {
+                hostelSelect.innerHTML = ''; // Reset options if gender is not specified
+                hostelSelect.disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>

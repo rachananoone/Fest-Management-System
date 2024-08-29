@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizer Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #cccccc;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: #444;
+            color: #fff;
+            padding: 10px 20px;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            flex-grow: 1; /* To stretch across the entire width */
+            justify-content: flex-end; /* Move items to the right */
+        }
+        .navbar-item {
+            margin-right: 15px;
+            padding: 8px 15px;
+            background-color: #444;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        .navbar-item:hover {
+            background-color: #bfbfbf;
+        }
+        .event-box {
+            background-color: #ffe6f2;
+            border: 1px solid black;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 20px 20px 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75); /* Adding box-shadow */
+        }
+        .search-bar {
+            width: calc(100% - 40px);
+            padding: 15px;
+            margin: 10px 10px 10px 20px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        .search-bar:focus {
+            border-color: #555;
+            outline: none;
+        }
+        .user-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #a6a6a6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+            margin-right: 15px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 30px; /* Larger font size */
+            margin-bottom: 20px; /* Add some bottom margin */
+        }
+        .event-name {
+            font-size: 24px; /* Larger font size */
+            font-weight: bold; /* Bold font weight */
+            margin-bottom: 10px; /* Add some bottom margin */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome, Organizer!</h1>
+        <div class="navbar">
+            <a href="/add_winner_form" class="navbar-item">Add Winners</a>
+            <a href="/winners" class="navbar-item">Winners</a>
+            <a href="/accommodation" class="navbar-item">Accommodation</a>
+            <button class="navbar-item" onclick="logout()">Logout</button>
+            <div class="user-icon">
+                {{ username[0] }} 
+            </div>
+        </div>
+    </div>
+
+    <h2>Events</h2>
+
+    <!-- Search bar placed below the Events heading -->
+    <input type="text" class="search-bar" id="searchInput" onkeyup="searchEvents()" placeholder="Search...">
+
+    {% for event in events %}
+    <div class="event-box" id="event{{ event.eventid }}">
+        <div class="event-name">{{ event.eventname }}</div>
+        <div class="event-details">
+            <p><strong>Type:</strong> {{ event.type }}</p>
+            <p><strong>Date:</strong> {{ event.date }}</p>
+            <strong>Volunteers:</strong>
+            <ul class="volunteers-list">
+                {% for volunteer in event_volunteers[event.eventid] %}
+                <li>{{ volunteer.username }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+
+    <script>
+        function searchEvents() {
+            var input, filter, events, eventBox, eventName, i;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            events = document.getElementsByClassName("event-box");
+            for (i = 0; i < events.length; i++) {
+                eventBox = events[i];
+                eventName = eventBox.getElementsByClassName("event-name")[0];
+                if (eventName.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    eventBox.style.display = "";
+                } else {
+                    eventBox.style.display = "none";
+                }
+            }
+        }
+        
+        function logout() {
+            window.location.href = '/logout';
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+

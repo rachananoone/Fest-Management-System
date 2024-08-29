@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration - College Festival Management System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            background-image: url('static/images/backgroundleaves.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh; /* Set the height of the body to the full viewport height */
+            position: relative; /* Set the position to relative for overlay positioning */
+        }
+        
+        .overlay {
+            position: absolute; /* Position the overlay absolutely */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white overlay */
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 50px;
+        }
+        h1 {
+            color: #333;
+            font-size: 45px; 
+            font-weight: bold; 
+        }
+        .btn {
+            margin: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-size:16px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .card {
+            margin-top: 30px;
+            background-color: #e6e6e6;
+            border: 1px solid #ccc; /* Add border to the cards */
+            height: 100%; /* Set a fixed height for the cards */
+            padding-top: 30px;
+        }
+        .card-img-top {
+            height: 200px; /* Adjust the height of the images */
+            object-fit: contain; /* Maintain aspect ratio and cover the entire space */
+        }
+        .card-title {
+            font-weight: bold; 
+        }
+        .sizing
+        {
+            font-size:25px;
+        }
+        form {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form input[type="text"],
+        form input[type="password"],
+        form input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        form button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        form button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dear Admin ---Please Add By Your Choice---</h1>
+        <!-- Go back button -->
+        <a href="/admin_home" class="btn btn-secondary sizing">Go Back</a>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="static/images/student.jpg" class="card-img-top" alt="Student Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Student</h5>
+                        <button class="btn btn-primary" onclick="showForm('student')">Register</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="static/images/participant.jpg" class="card-img-top" alt="Participant Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Participant</h5>
+                        <button class="btn btn-primary" onclick="showForm('participant')">Register</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="static/images/organizer.jpg" class="card-img-top" alt="Organizer Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Organizer</h5>
+                        <button class="btn btn-primary" onclick="showForm('organizer')">Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Registration Form -->
+        <form action="/submit_student_admin" method="POST" data-role="student" class="mt-4" style="display: none;">
+            <input type="text" id="s_username" name="s_username" placeholder="Username" required><br>
+            <input type="password" id="s_password" name="s_password" placeholder="Password" required><br>
+            <input type="text" id="s_name" name="s_name" placeholder="Name" required><br>
+            <input type="text" id="s_gender" name="s_gender" placeholder="Gender" required><br>
+            <input type="text" id="s_email"  name="s_email" placeholder="Email" required><br>
+            <input type="tel" id="s_mob" name="s_mob" placeholder="Mobile Number" required><br>
+            <input type="text" id="s_dept" name="s_dept" placeholder="Department" required><br>
+            <button type="submit" class="btn" id="s_register">Register</button>
+            <!-- Student registration fields go here -->
+        </form>
+
+        <!-- Participant Registration Form -->
+        <form action="/submit_participant_admin" method="POST" data-role="participant" style="display: none;">
+            <input type="text" id="p_username" name="p_username" placeholder="Username" required><br>
+            <input type="password" id="p_password" name="p_password" placeholder="Password" required><br>
+            <input type="text" id="p_name" name="p_name" placeholder="Name" required><br>
+            <input type="text" id="p_gender" name="p_gender" placeholder="Gender" required><br>
+            <input type="text" id="p_email"  name="p_email" placeholder="Email" required><br>
+            <input type="tel" id="p_mob" name="p_mob" placeholder="Mobile Number" required><br>
+            <input type="text" id="p_college" name="p_college" placeholder="College Name"><br>
+            <input type="text" id="p_dept" name="p_dept" placeholder="Department"><br>
+            <input type="text" id="p_place" name="p_place" placeholder="Place From"><br>
+            <button type="submit" class="btn">Register</button>
+            <!-- Participant registration fields go here -->
+        </form>
+
+        <!-- Organizer Registration Form -->
+        <form action="/submit_organizer_admin" method="POST" data-role="organizer" style="display: none;">
+            <input type="text" id="o_username" name="o_username" placeholder="Username" required><br>
+            <input type="password" id="o_password" name="o_password" placeholder="Password" required><br>
+            <input type="text" id="o_name" name="o_name" placeholder="Name" required><br>
+            <input type="text" id="o_gender" name="o_gender" placeholder="Gender" required><br>
+            <input type="text" id="o_email"  name="o_email" placeholder="Email" required><br>
+            <input type="tel" id="o_mob" name="o_mob" placeholder="Mobile Number" required><br>
+            <input type="text" id="o_role" name="o_role" placeholder="Role (e.g., head organizer)"><br>
+            <button type="submit" class="btn">Register</button>
+            <!-- Organizer registration fields go here -->
+        </form>
+    </div>
+
+    <script>
+        function showForm(role) {
+            var forms = document.querySelectorAll('form');
+            forms.forEach(function(form) {
+                form.style.display = 'none';
+            });
+            document.querySelector('form[data-role="' + role + '"]').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
